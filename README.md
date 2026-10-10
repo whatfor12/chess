@@ -1,2 +1,2 @@
 # chess-game
-Implement chess game using vanilla js
+Implement chess using vanilla js
