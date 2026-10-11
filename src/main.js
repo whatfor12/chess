@@ -8,11 +8,11 @@ function addSquares() {
       square.classList.add("square")
 
       if (row % 2 === 0 && col % 2 === 0) {
-        square.style.backgroundColor = "#F5F5DC"
+        square.style.backgroundColor = "#F0D9B5"
       } else if (row % 2 !== 0 && col % 2 !== 0) {
-        square.style.backgroundColor = "#F5F5DC"
+        square.style.backgroundColor = "#F0D9B5"
       } else {
-        square.style.backgroundColor = "#8B4513"
+        square.style.backgroundColor = "#B58863"
       }
 
       board.appendChild(square)
