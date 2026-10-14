@@ -50,66 +50,42 @@ export function setupInitialPieces() {
   }
 }
 
-export function movePiece() {
-  let moveFrom = []
-  let moveTo = []
-  let pieceImage = null
-
+export function setupDragging() {
   const squares = document.querySelectorAll(".square")
 
   squares.forEach((square) => {
-    square.addEventListener("click", () => {
-      const row = square.dataset.row
-      const col = square.dataset.col
-
-      const piece = square.querySelector("img")
-
-      if (piece) {
-        if (!moveFrom.length) {
-          // First click to a piece
-
-          // Set state for current piece
-          moveFrom.push(row, col)
-          pieceImage = piece
-        } else {
-          // Second click to another piece
-
-          // Clean state of previous piece
-          moveFrom = []
-          pieceImage = null
-
-          // Set state to a new piece
-          moveFrom.push(row, col)
-          pieceImage = piece
-        }
-      } else {
-        if (!moveTo.length) {
-          // First click to a free square
-
-          // Move piece if there's coordinates to move
-          if (moveFrom.length) {
-            // Set state for current target square
-            moveTo.push(row, col)
-
-            // Move piece to moveTo coordinates
-            const squareToMove = document.querySelector(
-              `.square[data-row="${moveTo[0]}"][data-col="${moveTo[1]}"`
-            )
-            squareToMove.appendChild(pieceImage)
-          }
-
-          // Reset state
-          moveFrom = []
-          moveTo = []
-          pieceImage = null
-        } else {
-          // Second click to another free square
-
-          // Clean state of previous target square
-          moveTo = []
-          moveTo.push(row, col)
-        }
-      }
-    })
+    findPiece(square)
   })
 }
+
+function findPiece(square) {
+  const piece = square.querySelector("img")
+
+  if (piece) {
+    square.addEventListener("mousedown", (event) => {
+      console.log("Start dragging")
+    })
+  }
+}
+
+// function draggingPiece(piece) {
+//   let isDragging = false
+//
+//   piece.addEventListener("mousedown", (event) => {
+//     isDragging = true
+//     console.log("Start dragging")
+//   })
+//
+//   document.addEventListener("mousemove", (event) => {
+//     if (!isDragging) {
+//       return
+//     }
+//
+//     console.log("Doing something with a document")
+//   })
+//
+//   document.addEventListener("mouseup", (event) => {
+//     isDragging = false
+//     console.log("Stop dragging")
+//   })
+// }
