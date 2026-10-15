@@ -50,42 +50,51 @@ export function setupInitialPieces() {
     }
 }
 
+let selectedPiece = null;
+
 export function setupDragging() {
     const squares = document.querySelectorAll(".square");
 
     squares.forEach((square) => {
-        findPiece(square);
+        square.addEventListener("mousedown", (event) => {
+            const piece = square.querySelector("img");
+
+            if (!piece) return;
+
+            selectedPiece = piece;
+            startDragging(event);
+
+            console.log("Current piece is", selectedPiece);
+        });
     });
 }
 
-function findPiece(square) {
-    const piece = square.querySelector("img");
-
-    if (piece) {
-        square.addEventListener("mousedown", (event) => {
-            console.log("Start dragging");
-        });
-    }
+function enableHover() {
+    const board = document.querySelector(".board");
+    board.dataset.hoverEnabled = true;
 }
 
-// function draggingPiece(piece) {
-//   let isDragging = false
-//
-//   piece.addEventListener("mousedown", (event) => {
-//     isDragging = true
-//     console.log("Start dragging")
-//   })
-//
-//   document.addEventListener("mousemove", (event) => {
-//     if (!isDragging) {
-//       return
-//     }
-//
-//     console.log("Doing something with a document")
-//   })
-//
-//   document.addEventListener("mouseup", (event) => {
-//     isDragging = false
-//     console.log("Stop dragging")
-//   })
-// }
+function disableHover() {
+    const board = document.querySelector(".board");
+    board.dataset.hoverEnabled = false;
+}
+
+function startDragging(event) {
+    event.preventDefault();
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+}
+
+function handleMouseMove(event) {
+    enableHover();
+
+    console.log(event.clientX, event.clientY);
+}
+
+function handleMouseUp() {
+    disableHover();
+
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+}
