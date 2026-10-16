@@ -50,6 +50,7 @@ export function setupInitialPieces() {
     }
 }
 
+let selectedSquare = null;
 let selectedPiece = null;
 
 export function setupDragging() {
@@ -61,12 +62,28 @@ export function setupDragging() {
 
             if (!piece) return;
 
+            selectedSquare = square;
             selectedPiece = piece;
             startDragging(event);
 
             console.log("Current piece is", selectedPiece);
         });
     });
+}
+
+function hightlightSquare() {
+    selectedSquare.style.backgroundColor = "darkgreen";
+}
+
+function disableHightlightSquare() {
+    const row = selectedSquare.dataset.row;
+    const col = selectedSquare.dataset.col;
+
+    if (row % 2 === col % 2) {
+        selectedSquare.style.backgroundColor = "#F0D9B5";
+    } else {
+        selectedSquare.style.backgroundColor = "#B58863";
+    }
 }
 
 function enableHover() {
@@ -82,6 +99,8 @@ function disableHover() {
 function startDragging(event) {
     event.preventDefault();
 
+    hightlightSquare();
+
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
 }
@@ -94,6 +113,7 @@ function handleMouseMove(event) {
 
 function handleMouseUp() {
     disableHover();
+    disableHightlightSquare();
 
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);

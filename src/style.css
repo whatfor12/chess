@@ -101,6 +101,6 @@ body {
 }
 
 .board[data-hover-enabled="true"] .square:hover {
-    outline: 4px solid limegreen;
+    outline: 4px solid deepskyblue;
     outline-offset: -4px;
 }
