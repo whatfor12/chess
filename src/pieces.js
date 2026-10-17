@@ -64,9 +64,15 @@ export function setupDragging() {
 
             selectedSquare = square;
             selectedPiece = piece;
-            startDragging(event);
 
-            console.log("Current piece is", selectedPiece);
+            const pieceRect = selectedPiece.getBoundingClientRect();
+
+            const newLeft = event.clientX - pieceRect.width / 2;
+            const newTop = event.clientY - pieceRect.width / 2;
+
+            setPiecePosition(newLeft, newTop);
+
+            startDragging(event);
         });
     });
 }
@@ -100,15 +106,37 @@ function startDragging(event) {
     event.preventDefault();
 
     hightlightSquare();
+    preparePieceForDragging();
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
 }
 
+function preparePieceForDragging() {
+    const pieceRect = selectedPiece.getBoundingClientRect();
+
+    selectedPiece.style.position = "fixed";
+    selectedPiece.style.zIndex = "1000";
+    selectedPiece.style.width = `${pieceRect.width}px`;
+    selectedPiece.style.height = `${pieceRect.height}px`;
+    selectedPiece.style.left = `${pieceRect.left}px`;
+    selectedPiece.style.top = `${pieceRect.top}px`;
+}
+
+function setPiecePosition(left, top) {
+    selectedPiece.style.left = `${left}px`;
+    selectedPiece.style.top = `${top}px`;
+}
+
 function handleMouseMove(event) {
     enableHover();
 
-    console.log(event.clientX, event.clientY);
+    const pieceRect = selectedPiece.getBoundingClientRect();
+
+    const newLeft = event.clientX - pieceRect.width / 2;
+    const newTop = event.clientY - pieceRect.height / 2;
+
+    setPiecePosition(newLeft, newTop);
 }
 
 function handleMouseUp() {
